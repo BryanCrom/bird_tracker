@@ -1,4 +1,6 @@
-from bird_identifier.identifier import Identifier
+from src.bird_identifier.identifier import Identifier
+from tests.index import return_values
+
 import pytest
 
 @pytest.fixture
@@ -11,7 +13,8 @@ def test_identifier(identifier):
     """test the identifier function"""
 
     # valid file
-    identifier.identify("../assets/fantail.mp3")
+    assert identifier.identify("assets/fantail.mp3") != return_values["identify_unmerged"]
+    assert identifier.identify("assets/fantail.mp3") == return_values["identify_merged"]
 
     #invalid file
     with pytest.raises(FileNotFoundError, match="No such file or directory"):
