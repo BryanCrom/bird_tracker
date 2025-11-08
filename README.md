@@ -5,7 +5,7 @@ Author: Bryan Cromabach
 Purpose: track the activity of birds
 
 # running the backend
-1. open a terminal and open bird_tracker_client
+1. open a terminal and open bird_tracker_server
 2. start virtual environment:
    - Windows: venv\Scripts\activate
    - Mac/Linux: source venv/bin/activate
@@ -29,3 +29,15 @@ Purpose: track the activity of birds
 
 # demo
 once both frontend and backend are working simply play around with the demo on the expo go app. The speaker icon is the only location currently and once you click on the icon it will take you to the statistics page where you can chose the different graphs you want to view or go back to the map.
+
+# testing
+I have tests for the indetifier and the database in the backend which are the core features that make the app run. Because I have to populate the database manually the test for the database should be run before populating the database because the population function randomises the data in the database.
+
+How to run the tests:
+
+1. open a terminal and open bird_tracker_server
+2. start virtual environment:
+   - Windows: venv\Scripts\activate
+   - Mac/Linux: source venv/bin/activate
+3. run "pip install -r requirements.txt"
+4. run "pytest tests/test_identifier.py" and "pytest tests/test_database.py"
