@@ -17,10 +17,14 @@ const Home = () => {
                 }}
             >
                 <Marker
+                    anchor={{ x: 0.5, y: 0.5 }}
                     coordinate={{latitude: -37.0118, longitude: 174.9076,}}
                     onPress={() => {router.push('/Stats')}}
                 >
-                    <CustomMarker />
+                    <View style={styles.icon}>
+                        <CustomMarker />
+                    </View>
+
                 </Marker>
             </MapView>
         </View>
@@ -37,4 +41,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+    icon: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });

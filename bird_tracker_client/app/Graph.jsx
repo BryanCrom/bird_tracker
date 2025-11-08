@@ -70,14 +70,23 @@ const Graph = () => {
     }
 
     const getWeekRange = (date) => {
-        const startOfWeek = new Date(date.setDate(new Date().getDate() - date.getDay()));
-        const endOfWeek = new Date(date.setDate(startOfWeek.getDate() + 6));
+        // Always work with a copy so we don’t mutate the original
+        const current = new Date(date);
+
+        const day = current.getDay(); // Sunday = 0
+        const startOfWeek = new Date(current);
+        startOfWeek.setDate(current.getDate() - day);
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+        endOfWeek.setHours(23, 59, 59, 999);
 
         return {
-            startDate: Math.floor(startOfWeek.getTime()),
-            endDate: Math.floor(endOfWeek.getTime()),
-        }
-    }
+            startDate: startOfWeek.getTime(), // milliseconds since epoch
+            endDate: endOfWeek.getTime(),
+        };
+    };
 
     return (
         <View style={styles.container}>

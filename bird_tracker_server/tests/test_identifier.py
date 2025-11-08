@@ -12,8 +12,8 @@ def test_identifier(identifier):
     """test the identifier function"""
 
     # valid file
-    assert identifier.identify("assets/fantail.mp3") != return_values["identify_unmerged"]
-    assert identifier.identify("assets/fantail.mp3") == return_values["identify_merged"]
+    assert identifier.identify("assets/fantail-1.mp3") != return_values["identify_unmerged"]
+    assert identifier.identify("assets/fantail-1.mp3") == return_values["identify_merged"]
 
     #invalid file
     with pytest.raises(FileNotFoundError, match="No such file or directory"):

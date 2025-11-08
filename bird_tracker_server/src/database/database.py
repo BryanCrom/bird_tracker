@@ -75,6 +75,9 @@ class Database:
                 if entry.is_file():
                     self.insert_call("assets/" + entry.name)
 
+    def clear_database(self):
+        self.collection.delete_many({})
+
 
     def close(self) -> None:
         self.cluster.close()

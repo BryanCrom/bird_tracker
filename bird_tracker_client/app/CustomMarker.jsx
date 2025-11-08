@@ -8,7 +8,6 @@ const CustomMarker = () => {
             <Image
                 source={speaker}
                 style={styles.icon}
-                resizeMode="contain"
             />
         </View>
     );
@@ -18,8 +17,8 @@ export default CustomMarker;
 
 const styles = StyleSheet.create({
     icon: {
-        width: 40,
-        height: 40,
+        width: 20,
+        height: 20,
     },
     card: {
         backgroundColor: '#eee',
