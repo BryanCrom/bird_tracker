@@ -12,5 +12,5 @@ return_values = {
                                    {'count': 0, 'day': 3},
                                    {'count': 0, 'day': 4},
                                    {'count': 0, 'day': 5},
-                                   {'count': 1, 'day': 6},],
+                                   {'count': 0, 'day': 6},],
 }
