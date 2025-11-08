@@ -1,5 +1,13 @@
 from src.bird_identifier.identifier import Identifier
 from src.database.database import Database
+from src.api.api import API
 
-database = Database(Identifier())
-database.insert_call("assets/fantail.mp3")
+identifier = Identifier()
+database = Database(identifier)
+
+choice = input("do you wish to populate the database for the current week? y/n: ")
+if choice == "y":
+    database.populate_db()
+
+api = API(database)
+api.run()

@@ -6,7 +6,6 @@ import pytest
 @pytest.fixture
 def identifier():
     """create an identifier object for testing"""
-
     return Identifier()
 
 def test_identifier(identifier):

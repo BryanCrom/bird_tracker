@@ -1,6 +1,11 @@
 import {StyleSheet, View} from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 import {useEffect, useState} from "react";
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
+import { API_URL } from '@env';
+
+
+
 
 const Graph = () => {
 
@@ -10,23 +15,58 @@ const Graph = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [currentEndDate, setCurrentEndDate] = useState(new Date());
     const [bird, setBird] = useState("all");
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [chartKey, setChartKey] = useState(0);
+
+    const segments = ["all", "fantail", "tui", "kiwi", "kaka"]
 
     useEffect(() => {
         const fetchData = async () => {
+            try {
+                const {endDate, startDate} = getWeekRange(currentDate);
+                setCurrentEndDate(new Date(endDate));
+                const response = await fetch(`${API_URL}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        startDate: startDate,
+                        endDate: endDate,
+                        location: "The Auckland Botanical Gardens",
+                        bird: bird
+                    })
+                })
 
-            const { endDate, startDate } = getWeekRange(currentDate);
-            setCurrentEndDate(new Date(endDate));
+                const data = await response.json();
 
+                setChartData(processData(data))
+            }
+            catch (error) {
+                console.log(error);
+            }
         }
-    },[])
 
-    const fetchWeeklyData = async (startDate, endDate, bird) => {
+        void fetchData()
+    },[chartKey, selectedIndex]);
 
-        try{
+    const processData = (data) => {
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-        }catch(e) {
-            console.log(e)
-        }
+        let barData = days.map((label) => ({
+            label,
+            value: 0,
+        }))
+
+        data.forEach((item) => {
+            const dayIndex = item.day;
+
+            if (dayIndex >= 0 && dayIndex < 7) {
+                barData[dayIndex].value = item.count;
+            }
+        })
+
+        return barData;
     }
 
     const getWeekRange = (date) => {
@@ -34,14 +74,15 @@ const Graph = () => {
         const endOfWeek = new Date(date.setDate(startOfWeek.getDate() + 6));
 
         return {
-            startOfWeek: Math.floor(startOfWeek.getTime()),
-            endOfWeek: Math.floor(endOfWeek.getTime()),
+            startDate: Math.floor(startOfWeek.getTime()),
+            endDate: Math.floor(endOfWeek.getTime()),
         }
     }
 
     return (
         <View style={styles.container}>
             <BarChart
+                key={chartKey}
                 data={chartData}
                 width={290}
                 height={250}
@@ -53,6 +94,15 @@ const Graph = () => {
                 xAxisThickness={0}
                 yAxisThickness={0}
                 isAnimated={true}
+            />
+            <SegmentedControl
+                values={segments}
+                selectedIndex={selectedIndex}
+                onChange={(event) => {
+                    const index = event.nativeEvent.selectedSegmentIndex
+                    setSelectedIndex(index);
+                    setBird(segments[index]);
+                }}
             />
         </View>
     );
